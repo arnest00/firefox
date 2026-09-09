@@ -307,13 +307,6 @@ document.addEventListener(
             SessionStore.forgetSavedTabGroup(tabGroupId);
           }
           break;
-        // == editBookmarkPanel ==
-        case "editBookmarkPanelDoneButton":
-          StarUI.panel.hidePopup();
-          break;
-        case "editBookmarkPanelRemoveButton":
-          StarUI.removeBookmarkButtonCommand();
-          break;
 
         // == sidebarMenu-popup ==
         case "sidebar-switcher-bookmarks":
