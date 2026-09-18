@@ -104,4 +104,6 @@ support-files = [
 
 ["browser_pdfjs_preview.js"]
 
+["browser_private_downloads_subview.js"]
+
 ["browser_tempfilename.js"]
