@@ -28,8 +28,17 @@
         <html:link rel="stylesheet" href="chrome://global/skin/global.css" />
         <html:link rel="stylesheet" href="chrome://browser/content/screenshots/screenshots-buttons.css" />
         <html:moz-button-group>
-          <html:button id="visible-page" class="screenshot-button footer-button" data-l10n-id="screenshots-save-visible-button"></html:button>
-          <html:button id="full-page" class="screenshot-button footer-button primary" data-l10n-id="screenshots-save-page-button"></html:button>
+          <html:moz-button
+            id="visible-page"
+            class="screenshot-button"
+            data-l10n-id="screenshots-save-visible-button"
+          ></html:moz-button>
+          <html:moz-button
+            id="full-page"
+            class="screenshot-button"
+            type="primary"
+            data-l10n-id="screenshots-save-page-button"
+          ></html:moz-button>
         </html:moz-button-group>
       `;
     }

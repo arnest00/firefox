@@ -719,7 +719,7 @@ export var ScreenshotsUtils = {
       return;
     }
 
-    let target = event.explicitOriginalTarget;
+    let target = event.composedPath().find(el => el.localName === "moz-button");
 
     if (!target.closest("moz-button-group, .mini-window-chooser")) {
       return;

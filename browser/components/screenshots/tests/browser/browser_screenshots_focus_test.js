@@ -53,7 +53,7 @@ async function restoreFocusOnEscape(initialFocusElem, helper) {
   );
 
   await TestUtils.waitForCondition(async () => {
-    return button.getRootNode().activeElement === button;
+    return button.matches(":focus-within");
   }, "The first button in the panel should have focus");
 
   info(
@@ -102,7 +102,7 @@ add_task(async function testPanelFocused() {
 
       info("Waiting for the button to be the activeElement");
       await TestUtils.waitForCondition(() => {
-        return button.getRootNode().activeElement === button;
+        return button.matches(":focus-within");
       }, "The first button in the panel should have focus");
 
       info("Sending Escape to close Screenshots");
@@ -223,15 +223,12 @@ add_task(async function test_focusLastUsedMethod() {
       let expectedFocusedButton = await helper.getPanelButton("#visible-page");
 
       await TestUtils.waitForCondition(() => {
-        return (
-          expectedFocusedButton.getRootNode().activeElement ===
-          expectedFocusedButton
-        );
+        return expectedFocusedButton.matches(":focus-within");
       }, "The visible button in the panel should have focus");
 
       is(
         Services.focus.focusedElement,
-        expectedFocusedButton,
+        expectedFocusedButton.buttonEl,
         "The visible button in the panel should have focus"
       );
 
@@ -250,15 +247,12 @@ add_task(async function test_focusLastUsedMethod() {
       expectedFocusedButton = await helper.getPanelButton("#full-page");
 
       await TestUtils.waitForCondition(() => {
-        return (
-          expectedFocusedButton.getRootNode().activeElement ===
-          expectedFocusedButton
-        );
+        return expectedFocusedButton.matches(":focus-within");
       }, "The full page button in the panel should have focus");
 
       is(
         Services.focus.focusedElement,
-        expectedFocusedButton,
+        expectedFocusedButton.buttonEl,
         "The full button in the panel should have focus"
       );
 
@@ -275,15 +269,12 @@ add_task(async function test_focusLastUsedMethod() {
       expectedFocusedButton = await helper.getPanelButton("#visible-page");
 
       await TestUtils.waitForCondition(() => {
-        return (
-          expectedFocusedButton.getRootNode().activeElement ===
-          expectedFocusedButton
-        );
+        return expectedFocusedButton.matches(":focus-within");
       }, "The visible button in the panel should have focus");
 
       is(
         Services.focus.focusedElement,
-        expectedFocusedButton,
+        expectedFocusedButton.buttonEl,
         "The visible button in the panel should have focus"
       );
 
@@ -294,10 +285,7 @@ add_task(async function test_focusLastUsedMethod() {
       expectedFocusedButton = helper.getDialogButton("download");
 
       await TestUtils.waitForCondition(() => {
-        return (
-          expectedFocusedButton.getRootNode().activeElement ===
-          expectedFocusedButton
-        );
+        return expectedFocusedButton.matches(":focus-within");
       }, "The download button in the preview dialog should have focus");
 
       is(
@@ -323,10 +311,7 @@ add_task(async function test_focusLastUsedMethod() {
       expectedFocusedButton = helper.getDialogButton("copy");
 
       await TestUtils.waitForCondition(() => {
-        return (
-          expectedFocusedButton.getRootNode().activeElement ===
-          expectedFocusedButton
-        );
+        return expectedFocusedButton.matches(":focus-within");
       }, "The copy button in the preview dialog should have focus");
 
       is(
@@ -355,10 +340,7 @@ add_task(async function test_focusLastUsedMethod() {
       expectedFocusedButton = helper.getDialogButton("download");
 
       await TestUtils.waitForCondition(() => {
-        return (
-          expectedFocusedButton.getRootNode().activeElement ===
-          expectedFocusedButton
-        );
+        return expectedFocusedButton.matches(":focus-within");
       }, "The download button in the preview dialog should have focus");
 
       is(
@@ -397,28 +379,28 @@ add_task(async function testFocusedIsLocked() {
       firstButton.focus();
 
       await TestUtils.waitForCondition(() => {
-        return firstButton.getRootNode().activeElement === firstButton;
+        return firstButton.matches(":focus-within");
       }, "The first button in the panel should have focus");
       info(
-        `Actual focused id: ${Services.focus.focusedElement.id}. Expected focused id: ${firstButton.id}`
+        `Actual focused id: ${Services.focus.focusedElement?.getRootNode()?.host?.id}. Expected focused id: ${firstButton.id}`
       );
       is(
         Services.focus.focusedElement,
-        firstButton,
+        firstButton.buttonEl,
         "The first button in the panel should have focus"
       );
 
       EventUtils.synthesizeKey("KEY_Tab");
 
       await TestUtils.waitForCondition(() => {
-        return lastButton.getRootNode().activeElement === lastButton;
+        return lastButton.matches(":focus-within");
       }, "The last button in the panel should have focus");
       info(
-        `Actual focused id: ${Services.focus.focusedElement.id}. Expected focused id: ${lastButton.id}`
+        `Actual focused id: ${Services.focus.focusedElement?.getRootNode()?.host?.id}. Expected focused id: ${lastButton.id}`
       );
       is(
         Services.focus.focusedElement,
-        lastButton,
+        lastButton.buttonEl,
         "The last button in the panel should have focus"
       );
 
@@ -427,18 +409,18 @@ add_task(async function testFocusedIsLocked() {
       // Focus should move to the content document
       await TestUtils.waitForCondition(() => {
         return (
-          firstButton.getRootNode().activeElement !== firstButton &&
-          lastButton.getRootNode().activeElement !== lastButton
+          !firstButton.matches(":focus-within") &&
+          !lastButton.matches(":focus-within")
         );
       }, "The first and last buttons do not have focus");
       Assert.notEqual(
         Services.focus.focusedElement,
-        firstButton,
+        firstButton.buttonEl,
         "The first button does not have focus"
       );
       Assert.notEqual(
         Services.focus.focusedElement,
-        lastButton,
+        lastButton.buttonEl,
         "The last button does not have focus"
       );
 
@@ -447,35 +429,35 @@ add_task(async function testFocusedIsLocked() {
       // Focus should still be in the content document
       await TestUtils.waitForCondition(() => {
         return (
-          firstButton.getRootNode().activeElement !== firstButton &&
-          lastButton.getRootNode().activeElement !== lastButton
+          !firstButton.matches(":focus-within") &&
+          !lastButton.matches(":focus-within")
         );
       }, "The first and last buttons do not have focus");
       Assert.notEqual(
         Services.focus.focusedElement,
-        firstButton,
+        firstButton.buttonEl,
         "The first button does not have focus"
       );
       Assert.notEqual(
         Services.focus.focusedElement,
-        lastButton,
+        lastButton.buttonEl,
         "The last button does not have focus"
       );
 
       EventUtils.synthesizeKey("KEY_Tab");
 
       info(
-        `Actual focused id: ${Services.focus.focusedElement.id}. Expected focused id: ${firstButton.id}`
+        `Actual focused id: ${Services.focus.focusedElement?.getRootNode()?.host?.id}. Expected focused id: ${firstButton.id}`
       );
       await TestUtils.waitForCondition(() => {
-        return firstButton.getRootNode().activeElement === firstButton;
+        return firstButton.matches(":focus-within");
       }, "The first button in the panel should have focus");
       info(
-        `Actual focused id: ${Services.focus.focusedElement.id}. Expected focused id: ${firstButton.id}`
+        `Actual focused id: ${Services.focus.focusedElement?.getRootNode()?.host?.id}. Expected focused id: ${firstButton.id}`
       );
       is(
         Services.focus.focusedElement,
-        firstButton,
+        firstButton.buttonEl,
         "The first button in the panel should have focus"
       );
     }

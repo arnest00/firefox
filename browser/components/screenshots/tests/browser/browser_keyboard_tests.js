@@ -215,14 +215,14 @@ add_task(async function test_elementSelectedOnEnter() {
       visibleButton.focus();
 
       await TestUtils.waitForCondition(() => {
-        return visibleButton.getRootNode().activeElement === visibleButton;
+        return visibleButton.matches(":focus-within");
       }, "The visible button in the panel should have focus");
       info(
-        `Actual focused id: ${Services.focus.focusedElement.id}. Expected focused id: ${visibleButton.id}`
+        `Actual focused id: ${Services.focus.focusedElement?.getRootNode()?.host?.id}. Expected focused id: ${visibleButton.id}`
       );
       is(
         Services.focus.focusedElement,
-        visibleButton,
+        visibleButton.buttonEl,
         "The visible button in the panel should have focus"
       );
 
@@ -232,18 +232,18 @@ add_task(async function test_elementSelectedOnEnter() {
       let fullpageButton = await helper.getPanelButton("#full-page");
       await TestUtils.waitForCondition(() => {
         return (
-          fullpageButton.getRootNode().activeElement !== fullpageButton &&
-          visibleButton.getRootNode().activeElement !== visibleButton
+          !fullpageButton.matches(":focus-within") &&
+          !visibleButton.matches(":focus-within")
         );
       }, "The visible and full page buttons do not have focus");
       Assert.notEqual(
         Services.focus.focusedElement,
-        visibleButton,
+        visibleButton.buttonEl,
         "The visible button does not have focus"
       );
       Assert.notEqual(
         Services.focus.focusedElement,
-        fullpageButton,
+        fullpageButton.buttonEl,
         "The full page button does not have focus"
       );
 
