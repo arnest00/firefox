@@ -26,7 +26,8 @@ add_task(async function openDebuggerFirst() {
   const notification = await alert;
 
   info("Click on the debug script button");
-  const buttons = notification.buttonContainer.getElementsByTagName("button");
+  const buttons =
+    notification.buttonContainer.getElementsByTagName("moz-button");
   // The first button is "stop", the second is "debug script"
   buttons[1].click();
 
@@ -65,7 +66,8 @@ add_task(async function openDebuggerFromDialog() {
   const notification = await alert;
 
   info("Click on the debug script button");
-  const buttons = notification.buttonContainer.getElementsByTagName("button");
+  const buttons =
+    notification.buttonContainer.getElementsByTagName("moz-button");
   // The first button is "stop", the second is "debug script"
   buttons[1].click();
 
@@ -108,7 +110,8 @@ add_task(async function debugScriptHiddenWithoutDevTools() {
   info("Wait for the slow script warning");
   const notification = await alert;
 
-  const buttons = notification.buttonContainer.getElementsByTagName("button");
+  const buttons =
+    notification.buttonContainer.getElementsByTagName("moz-button");
   const labels = Array.from(buttons, button => button.getAttribute("label"));
   const debugLabel = gNavigatorBundle.getString(
     "processHang.button_debug.label"
@@ -149,7 +152,8 @@ add_task(async function debugScriptDisabledByPolicy() {
   info("Wait for the slow script warning");
   const notification = await alert;
 
-  const buttons = notification.buttonContainer.getElementsByTagName("button");
+  const buttons =
+    notification.buttonContainer.getElementsByTagName("moz-button");
   const labels = Array.from(buttons, button => button.getAttribute("label"));
   const debugLabel = gNavigatorBundle.getString(
     "processHang.button_debug.label"
